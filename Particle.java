@@ -62,7 +62,8 @@ public class Particle {
         if (i + 1 < grid.length && grid[i + 1][j].type.equals("empty")) {
             newGrid[i + 1][j] = this;
             newGrid[i][j] = new Particle(i, j);
-        } else if (j - 1 >= 0 && j + 1 < grid[0].length && isEmpty(grid[i][j - 1]) && isEmpty(grid[i][j + 1])) {
+        } else if (j - 1 >= 0 && j + 1 < grid[0].length && isEmpty(grid[i][j - 1]) && isEmpty(grid[i][j + 1])
+                && isEmpty(newGrid[i][j - 1]) && isEmpty(newGrid[i][j + 1])) {
             if (coinFlip()) {
                 newGrid[i][j - 1] = this;
             } else {
@@ -71,13 +72,14 @@ public class Particle {
             if (newGrid[i][j] == null) {
                 newGrid[i][j] = new Particle(i, j);
             }
-        } else if (j - 1 > 0 && isEmpty(grid[i][j - 1])) {
+            // && isEmpty(grid[i][j - 1]) && isEmpty(grid[i][j + 1]
+        } else if (j - 1 > 0 && isEmpty(grid[i][j - 1]) && isEmpty(newGrid[i][j - 1])) {
             newGrid[i][j - 1] = this;
             if (newGrid[i][j] == null) {
                 newGrid[i][j] = new Particle(i, j);
             }
 
-        } else if (j + 1 < grid[0].length && isEmpty(grid[i][j + 1])) {
+        } else if (j + 1 < grid[0].length && isEmpty(grid[i][j + 1]) && isEmpty(newGrid[i][j + 1])) {
             newGrid[i][j + 1] = this;
             if (newGrid[i][j] == null) {
                 newGrid[i][j] = new Particle(i, j);
@@ -93,6 +95,9 @@ public class Particle {
     }
 
     private boolean isEmpty(Particle p) {
+        if (p == null) {
+            return true;
+        }
         return p.type.equals("empty");
     }
 
