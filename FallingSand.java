@@ -7,6 +7,7 @@ public class FallingSand {
         frame.add(panel);
         frame.pack();
         frame.setBackground(java.awt.Color.BLACK);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 }
