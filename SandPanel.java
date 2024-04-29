@@ -5,7 +5,6 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.*;
 
@@ -18,12 +17,19 @@ public class SandPanel extends JPanel {
     private int pixelSize = WIDTH / world.width;
 
     public SandPanel() {
-        JRadioButton concreteButton = new JRadioButton("");
-        JRadioButton waterButton = new JRadioButton("");
+        JRadioButton concreteButton = new JRadioButton("concrete");
+        JRadioButton waterButton = new JRadioButton("water");
+        JRadioButton sandButton = new JRadioButton("sand");
+        concreteButton.setForeground(Color.WHITE);
+        waterButton.setForeground(Color.WHITE);
+        sandButton.setForeground(Color.WHITE);
+        ButtonGroup group = new ButtonGroup();
+        group.add(concreteButton);
+        group.add(sandButton);
+        group.add(waterButton);
         // concreteButton.setText("concrete");
-        concreteButton.setBackground(Color.gray);
-        // add(waterButton);
-
+        add(waterButton);
+        add(sandButton);
         add(concreteButton);
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setBackground(Color.BLACK);
@@ -45,9 +51,9 @@ public class SandPanel extends JPanel {
                 world.addConcrete(row - 1, column - 1);
             } else if (waterButton.isSelected()) {
 
-                // world.addWater(row, column, .7f);
+                world.addWater(row, column);
 
-            } else {
+            } else if (sandButton.isSelected()) {
                 world.addSand(row, column, hue);
                 world.addSand(row - 1, column, hue);
                 world.addSand(row + 1, column, hue);
@@ -78,7 +84,7 @@ public class SandPanel extends JPanel {
     public void paintComponent(Graphics g) {
         for (int i = 0; i < world.width; i++) {
             for (int j = 0; j < world.height; j++) {
-                g.setColor(new Color(10, 10, 10));
+                g.setColor(new Color(50, 50, 50));
                 g.drawRect(i * pixelSize, j * pixelSize, pixelSize, pixelSize);
                 if (!world.get(i, j).getType().equals("empty")) {
                     g.setColor(world.get(i, j).getColor());
