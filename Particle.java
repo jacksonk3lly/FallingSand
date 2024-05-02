@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.util.Random;
 
 public class Particle {
 
@@ -62,8 +63,8 @@ public class Particle {
         if (i + 1 < grid.length && grid[i + 1][j].type.equals("empty")) {
             newGrid[i + 1][j] = this;
             newGrid[i][j] = new Particle(i, j);
-        } else if (j - 1 >= 0 && j + 1 < grid[0].length && isEmpty(grid[i][j - 1]) && isEmpty(grid[i][j + 1])
-                && isEmpty(newGrid[i][j - 1]) && isEmpty(newGrid[i][j + 1])) {
+        } else if (j - 1 >= 0 && j + 1 < grid[0].length && isEmpty(grid[i][j - 1]) && isWater(grid[i - 1][j])
+                && isEmpty(grid[i][j + 1])) {
             if (coinFlip()) {
                 newGrid[i][j - 1] = this;
             } else {
@@ -73,13 +74,15 @@ public class Particle {
                 newGrid[i][j] = new Particle(i, j);
             }
             // && isEmpty(grid[i][j - 1]) && isEmpty(grid[i][j + 1]
-        } else if (j - 1 > 0 && isEmpty(grid[i][j - 1]) && isEmpty(newGrid[i][j - 1])) {
+        } else if (j - 1 > 0 && isEmpty(grid[i][j - 1]) && isWater(grid[i - 1][j])) {
             newGrid[i][j - 1] = this;
             if (newGrid[i][j] == null) {
                 newGrid[i][j] = new Particle(i, j);
             }
 
-        } else if (j + 1 < grid[0].length && isEmpty(grid[i][j + 1]) && isEmpty(newGrid[i][j + 1])) {
+        } else if (j + 1 < grid[0].length && i < grid.length - 2 && isEmpty(grid[i][j + 1])
+                && isEmpty(newGrid[i][j + 1])
+                && isWater(grid[i + 1][j])) {
             newGrid[i][j + 1] = this;
             if (newGrid[i][j] == null) {
                 newGrid[i][j] = new Particle(i, j);
@@ -90,8 +93,16 @@ public class Particle {
         }
     }
 
+    private boolean isWater(Particle particle) {
+        if (particle == null) {
+            return false;
+        }
+        return particle.type.equals("water");
+    }
+
     private boolean coinFlip() {
-        return Math.random() < 0.5;
+        Random r = new Random();
+        return r.nextBoolean();
     }
 
     private boolean isEmpty(Particle p) {
