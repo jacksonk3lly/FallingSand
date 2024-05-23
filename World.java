@@ -19,7 +19,6 @@ public class World {
     }
 
     public void step() {
-        System.out.println("Step");
         newGrid = new Particle[grid.length][grid[0].length];
 
         for (int i = grid.length - 1; i >= 0; i--) {
@@ -27,7 +26,6 @@ public class World {
                 grid[i][j].behave(grid, newGrid, i, j);
             }
         }
-        System.out.println("Full RUN");
         grid = newGrid;
     }
 
